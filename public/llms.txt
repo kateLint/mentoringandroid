@@ -1,0 +1,34 @@
+# 1:1 Android Engineering & Career Mentorship
+> Personal 1:1 technical strategy, system design mock interviews, and career roadmap with Staff Android Architect Kate Lint.
+
+## Overview
+AndroidEngineers 1:1 Mentorship is a private, focused advisory service tailored for professional Android developers, mid-to-senior engineers, and technical leads. Every 90-minute session is conducted live via private video with zero automated fluff.
+
+- **Duration**: 90 Minutes private 1:1 video call (Google Meet)
+- **Mentor**: Kate Lint (Staff Android Architect & Lead, 10+ years experience, 150+ engineers coached)
+- **Live Price**: ₹4,999 INR / $149 USD / €139 EUR (Standard rate: ₹7,999 / $249)
+- **Inclusions**: Pre-session intake code review, 90-min live call, tailored written action plan, curated resources, and 14-day direct email follow-up.
+- **Guarantee**: 100% money-back guarantee in the first 15 minutes if not the right fit. Free rescheduling up to 24 hours in advance.
+
+## Key Links & Capabilities
+- [Book a Session](https://mentoringandroid.dev/book): 3-step intake, interactive timezone calendar, and checkout.
+- [Self-Service Rescheduling](https://mentoringandroid.dev/booking/reschedule): Mentee portal to reschedule existing bookings.
+- [Engineering Resources](https://mentoringandroid.dev/resources): Mobile system design blueprints, Jetpack Compose performance checklists, and Staff interview questions.
+- [Career Diagnostic Quiz](https://mentoringandroid.dev/assessment): 2-minute diagnostic evaluating Mid vs. Senior vs. Staff readiness.
+- [Cancellation & Refund Policy](https://mentoringandroid.dev/refunds): 24-hour rescheduling policy and satisfaction guarantee.
+- [Privacy Policy](https://mentoringandroid.dev/privacy): Zero sale of personal intake data, strict confidentiality.
+- [Terms of Service](https://mentoringandroid.dev/terms): Professional consulting guidelines and IP rights.
+- [Owner Portal](https://mentoringandroid.dev/admin): Dashboard for updating pricing, inspecting intakes, and slot management.
+
+## 90-Minute Session Agenda
+1. **0–20 min — Goals & Current Position**: Audit target role expectations, background friction, and identify high-priority focal points.
+2. **20–45 min — Deep Review & Direct Feedback**: Line-by-line review of GitHub repos, Compose architecture, or live mock interview responses.
+3. **45–75 min — Strategic Action Plan**: Build a customized 90-day execution roadmap with milestones and practice points.
+4. **75–90 min — Q&A & Next Actions**: Resolve lingering doubts, agree on 7-day immediate commitments, and set up the 14-day email support window.
+
+## Specialized Technical Expertise
+- Kotlin Multiplatform (KMP) & Compose Multiplatform
+- Jetpack Compose State Hoisting, Recomposition Optimization, and Layout Internals
+- Kotlin Coroutines, Structured Concurrency, Flow, and Reactive Architecture (MVI/MVVM)
+- Mobile System Design (Offline-first sync, Room caching, pagination, network resilience)
+- Multi-Module Gradle Architecture, Convention Plugins, and CI/CD pipelines
