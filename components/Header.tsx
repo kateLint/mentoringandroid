@@ -43,7 +43,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
             <Link
               href="/#how-it-works"
               className="hover:text-emerald-600 transition-colors py-2"
@@ -63,10 +63,16 @@ export default function Header() {
               Your mentor
             </Link>
             <Link
-              href="/#reviews"
+              href="/resources"
               className="hover:text-emerald-600 transition-colors py-2"
             >
-              Outcomes
+              Guides & Sheets
+            </Link>
+            <Link
+              href="/assessment"
+              className="hover:text-emerald-600 transition-colors py-2 text-emerald-700 font-bold"
+            >
+              Diagnostic Quiz
             </Link>
             <Link
               href="/#faq"
@@ -135,6 +141,22 @@ export default function Header() {
             >
               Your mentor
               <ArrowRight className="w-4 h-4 text-slate-400" />
+            </Link>
+            <Link
+              href="/resources"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-4 py-3 rounded-lg text-slate-800 font-medium hover:bg-slate-50 flex items-center justify-between text-base"
+            >
+              Architecture Guides & Questions
+              <ArrowRight className="w-4 h-4 text-slate-400" />
+            </Link>
+            <Link
+              href="/assessment"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-4 py-3 rounded-lg text-emerald-800 font-bold bg-emerald-50/60 hover:bg-emerald-100 flex items-center justify-between text-base"
+            >
+              Career Diagnostic Quiz
+              <ArrowRight className="w-4 h-4 text-emerald-600" />
             </Link>
             <Link
               href="/#reviews"

@@ -78,6 +78,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/resources" className="hover:text-white transition-colors">
+                  Guides & Interview Questions
+                </Link>
+              </li>
+              <li>
+                <Link href="/assessment" className="hover:text-emerald-400 transition-colors text-emerald-500 font-semibold">
+                  Career Diagnostic Quiz
+                </Link>
+              </li>
+              <li>
                 <Link href="/book" className="hover:text-white transition-colors">
                   Book appointment
                 </Link>

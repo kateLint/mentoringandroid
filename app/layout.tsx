@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mentoringandroid.dev"),
   title: "1:1 Android Mentoring | Career, System Design & Architecture Strategy",
   description:
     "Accelerate your mobile engineering career with a focused 90-minute private strategy session with a Staff Android Architect. Line-by-line review, interview preparation, and custom actionable roadmap.",
