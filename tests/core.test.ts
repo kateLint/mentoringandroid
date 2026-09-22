@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert";
-import { generateDefaultSlots, defaultOffer, defaultMentor } from "../lib/data/default-content.ts";
-import { generateStructuredData } from "../lib/schema.ts";
+import { generateDefaultSlots, defaultOffer, defaultMentor } from "../lib/data/default-content";
+import { generateStructuredData } from "../lib/schema";
+import { getPriceForCurrency } from "../lib/currency";
 
 test("generateDefaultSlots produces valid upcoming dates without Sundays", () => {
   const slots = generateDefaultSlots();
@@ -28,7 +29,7 @@ test("generateStructuredData returns valid Schema.org graph", () => {
 
   const service = schema["@graph"].find((item: any) => item["@type"] === "Service");
   assert.ok(service, "Must include Service entry");
-  assert.strictEqual(service.offers.price, defaultOffer.currentPrice);
+  assert.strictEqual(service?.offers?.price, defaultOffer.currentPrice);
 });
 
 test("defaultOffer has positive prices and valid 90-min duration per spec", () => {
@@ -36,4 +37,17 @@ test("defaultOffer has positive prices and valid 90-min duration per spec", () =
   assert.ok(defaultOffer.originalPrice > defaultOffer.currentPrice, "Original price must exceed current price");
   assert.strictEqual(defaultOffer.durationMinutes, 90, "Duration must be 90 minutes per spec");
   assert.ok(defaultOffer.inclusions.length >= 4, "Must have at least 4 deliverables");
+});
+
+test("multi-currency configurations return valid localized rates", () => {
+  const inr = getPriceForCurrency("INR");
+  const usd = getPriceForCurrency("USD");
+  const eur = getPriceForCurrency("EUR");
+
+  assert.strictEqual(inr.symbol, "₹");
+  assert.strictEqual(usd.symbol, "$");
+  assert.strictEqual(eur.symbol, "€");
+
+  assert.ok(usd.basePrice > 0);
+  assert.ok(usd.originalPrice > usd.basePrice);
 });

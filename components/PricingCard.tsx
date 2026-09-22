@@ -1,13 +1,22 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
-import { Check, ShieldCheck, ArrowRight, Sparkles, Clock, Lock } from "lucide-react";
+import { Check, ShieldCheck, ArrowRight, Sparkles, Clock, Lock, Globe } from "lucide-react";
 import { Offer } from "../lib/types";
+import { currencies, SupportedCurrency } from "../lib/currency";
 
 interface PricingCardProps {
   offer: Offer;
 }
 
 export default function PricingCard({ offer }: PricingCardProps) {
+  const [selectedCurrency, setSelectedCurrency] = useState<SupportedCurrency>("INR");
+
+  const curr = currencies[selectedCurrency];
+  const displayCurrentPrice = curr.basePrice;
+  const displayOriginalPrice = curr.originalPrice;
+
   return (
     <section id="booking" className="py-16 sm:py-20 bg-slate-900 text-white relative overflow-hidden">
       {/* Glow shapes */}
@@ -26,6 +35,25 @@ export default function PricingCard({ offer }: PricingCardProps) {
           <p className="mt-3 text-slate-300 text-sm sm:text-base">
             No recurring subscriptions or fluff. Complete transparency and immediate impact from day one.
           </p>
+
+          {/* Currency Switcher */}
+          <div className="mt-6 inline-flex items-center gap-1 p-1 rounded-xl bg-slate-800 border border-slate-700">
+            <Globe className="w-3.5 h-3.5 text-slate-400 ml-2" />
+            {(Object.keys(currencies) as SupportedCurrency[]).map((cCode) => (
+              <button
+                key={cCode}
+                type="button"
+                onClick={() => setSelectedCurrency(cCode)}
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                  selectedCurrency === cCode
+                    ? "bg-emerald-500 text-slate-950 shadow-xs"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                {cCode} ({currencies[cCode].symbol})
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* The Card */}
@@ -46,13 +74,13 @@ export default function PricingCard({ offer }: PricingCardProps) {
             </div>
 
             {/* Price section */}
-            <div className="text-left sm:text-right bg-slate-900/60 p-3 sm:p-4 rounded-2xl border border-slate-700/60">
+            <div className="text-left sm:text-right bg-slate-900/60 p-3 sm:p-4 rounded-2xl border border-slate-700/60 min-w-[170px]">
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl sm:text-4xl font-black text-white">
-                  {offer.currencySymbol}{offer.currentPrice.toLocaleString()}
+                  {curr.symbol}{displayCurrentPrice.toLocaleString()}
                 </span>
                 <span className="text-base text-slate-500 line-through">
-                  {offer.currencySymbol}{offer.originalPrice.toLocaleString()}
+                  {curr.symbol}{displayOriginalPrice.toLocaleString()}
                 </span>
               </div>
               <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold">

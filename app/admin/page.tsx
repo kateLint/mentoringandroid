@@ -19,6 +19,8 @@ import {
   FileText,
   ChevronDown,
   ChevronUp,
+  Download,
+  Search,
 } from "lucide-react";
 import { Booking, Offer, TimeSlot } from "@/lib/types";
 
@@ -31,6 +33,48 @@ export default function AdminPage() {
   const [savingOffer, setSavingOffer] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState("");
   const [expandedBookingId, setExpandedBookingId] = useState<string | null>(null);
+
+  // Filters
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const exportCSV = () => {
+    if (bookings.length === 0) return;
+    const headers = [
+      "Booking ID",
+      "Name",
+      "Email",
+      "Date",
+      "Time",
+      "Timezone",
+      "Focus Area",
+      "Amount Paid",
+      "Currency",
+      "Status",
+      "Meeting Link",
+    ];
+    const rows = bookings.map((b) => [
+      b.id,
+      `"${b.customerName}"`,
+      b.customerEmail,
+      b.slotDate,
+      b.slotTime,
+      b.timeZone,
+      `"${b.focusArea}"`,
+      b.amountPaid,
+      b.currency,
+      b.status,
+      b.meetingLink,
+    ]);
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `mentoring-bookings-${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Editable Offer state
   const [offerForm, setOfferForm] = useState({
@@ -194,38 +238,88 @@ export default function AdminPage() {
         </div>
 
         {/* Tab 1: Bookings List */}
-        {activeTab === "bookings" && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h2 className="text-xl font-extrabold text-slate-900">
-                  Client Bookings & Intakes
-                </h2>
-                <p className="text-xs text-slate-500">
-                  Manage confirmed appointments, view questionnaire responses, and update session states.
-                </p>
-              </div>
-            </div>
+        {activeTab === "bookings" && (() => {
+          const filteredBookings = bookings.filter((b) => {
+            const matchesStatus = statusFilter === "all" || b.status === statusFilter;
+            const matchesSearch =
+              !searchTerm ||
+              b.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              b.customerEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              b.id.toLowerCase().includes(searchTerm.toLowerCase());
+            return matchesStatus && matchesSearch;
+          });
 
-            {bookings.length === 0 ? (
-              <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 text-slate-500">
-                <Users className="w-12 h-12 mx-auto text-slate-300 mb-3" />
-                <h3 className="font-bold text-slate-700 text-base">No bookings yet</h3>
-                <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
-                  When visitors book a mentoring session from the landing page, their intake responses and payment receipts will appear here.
-                </p>
-                <Link
-                  href="/book"
-                  className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold"
-                >
-                  Create a test booking
-                </Link>
+          return (
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                <div>
+                  <h2 className="text-xl font-extrabold text-slate-900">
+                    Client Bookings & Intakes
+                  </h2>
+                  <p className="text-xs text-slate-500">
+                    Manage confirmed appointments, view questionnaire responses, and update session states.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={exportCSV}
+                    disabled={bookings.length === 0}
+                    className="px-3 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold flex items-center gap-1.5 shadow-2xs transition-colors"
+                  >
+                    <Download className="w-3.5 h-3.5 text-slate-500" />
+                    <span>Export CSV</span>
+                  </button>
+                </div>
               </div>
-            ) : (
-              <div className="space-y-4">
-                {bookings.map((b) => {
-                  const isExpanded = expandedBookingId === b.id;
-                  return (
+
+              {/* Filter Toolbar */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
+                {/* Search Bar */}
+                <div className="relative flex-1">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                  <input
+                    type="text"
+                    placeholder="Search by name, email, or reference ID..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 text-xs focus:border-emerald-600 outline-none"
+                  />
+                </div>
+
+                {/* Status Filter Buttons */}
+                <div className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0">
+                  {["all", "confirmed", "rescheduled", "completed", "cancelled"].map((st) => (
+                    <button
+                      key={st}
+                      type="button"
+                      onClick={() => setStatusFilter(st)}
+                      className={`px-2.5 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${
+                        statusFilter === st
+                          ? "bg-slate-900 text-white shadow-2xs"
+                          : "text-slate-600 hover:bg-slate-100"
+                      }`}
+                    >
+                      {st}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {filteredBookings.length === 0 ? (
+                <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 text-slate-500">
+                  <Users className="w-12 h-12 mx-auto text-slate-300 mb-3" />
+                  <h3 className="font-bold text-slate-700 text-base">No matching bookings found</h3>
+                  <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
+                    Try adjusting your search terms or filter selection above.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {filteredBookings.map((b) => {
+                    const isExpanded = expandedBookingId === b.id;
+                    return (
                     <div
                       key={b.id}
                       className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden transition-all"
@@ -371,10 +465,11 @@ export default function AdminPage() {
                     </div>
                   );
                 })}
-              </div>
-            )}
-          </div>
-        )}
+                </div>
+              )}
+            </div>
+          );
+        })()}
 
         {/* Tab 2: Offer & Pricing Editor */}
         {activeTab === "offer" && (
