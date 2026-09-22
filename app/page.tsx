@@ -14,6 +14,7 @@ import Footer from "../components/Footer";
 import StickyMobileBar from "../components/StickyMobileBar";
 import { getOffer, getMentor } from "../lib/storage";
 import { defaultCurriculum, defaultTestimonials, defaultFaqs } from "../lib/data/default-content";
+import { generateStructuredData } from "../lib/schema";
 
 // Force dynamic rendering so changes in admin dashboard reflect immediately
 export const dynamic = "force-dynamic";
@@ -21,9 +22,14 @@ export const dynamic = "force-dynamic";
 export default function Home() {
   const offer = getOffer();
   const mentor = getMentor();
+  const jsonLd = generateStructuredData(offer, mentor);
 
   return (
     <div className="flex flex-col min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
       <main className="flex-grow pb-16 md:pb-0">
         <Hero mentor={mentor} offer={offer} />
