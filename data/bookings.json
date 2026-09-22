@@ -1,0 +1,23 @@
+[
+  {
+    "id": "MNT-TG0LXN",
+    "offerId": "android-1on1-mentoring",
+    "customerName": "John Doe",
+    "customerEmail": "johndoe@gmail.com",
+    "timeZone": "America/New_York",
+    "primaryGoal": "Prepare for Staff Android Architect interview on offline sync and Compose state",
+    "focusArea": "interview",
+    "portfolioOrResumeUrl": "",
+    "currentRoleOrBackground": "",
+    "notesOrAccessibility": "",
+    "slotDate": "2026-09-24",
+    "slotTime": "02:00 PM",
+    "slotDurationMinutes": 90,
+    "currency": "INR",
+    "amountPaid": 4999,
+    "status": "completed",
+    "paymentReference": "PAY-SIM-1790063176040-TG0LXN",
+    "meetingLink": "https://meet.google.com/mnt-tg0-lxn",
+    "createdAt": "2026-09-22T07:46:16.040Z"
+  }
+]
