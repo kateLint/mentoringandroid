@@ -24,44 +24,61 @@ export default function MentorProfile({ mentor }: MentorProfileProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left: Mentor Portrait and Links */}
+          {/* Left: Mentor Polaroid & Scrapbook Accents */}
           <div className="lg:col-span-5 flex flex-col items-center text-center">
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-3xl overflow-hidden border-4 border-slate-100 shadow-2xl mb-6">
-              <img
-                src={mentor.portraitUrl}
-                alt={mentor.name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 text-left text-white">
-                <span className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
-                  Staff Mobile Architect
-                </span>
-                <p className="text-lg font-bold">{mentor.name}</p>
+            {/* Polaroid Container */}
+            <div className="relative polaroid-frame p-3.5 sm:p-4 pb-8 sm:pb-10 rounded-sm w-[280px] sm:w-[320px] transform rotate-2 hover:rotate-0 transition-transform duration-300 ease-out mb-6">
+              {/* Washi tape at top */}
+              <div className="absolute -top-3 left-10 w-24 h-6 washi-tape -rotate-6 z-20 pointer-events-none" />
+
+              {/* Photo */}
+              <div className="relative w-full aspect-square overflow-hidden bg-slate-100 shadow-inner">
+                <img
+                  src={mentor.portraitUrl}
+                  alt={mentor.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Polaroid Bottom Caption */}
+              <div className="pt-3 pb-1 text-center font-handwriting">
+                <div className="text-xl font-bold text-slate-900 leading-tight">
+                  {mentor.name}
+                </div>
+                <div className="text-xs sm:text-sm font-semibold text-slate-600">
+                  {mentor.title}
+                </div>
               </div>
             </div>
 
-            {/* Verified Profile Links */}
-            <div className="flex items-center gap-3">
+            {/* Verified Profile Links & Contact Pill */}
+            <div className="flex flex-wrap items-center justify-center gap-2.5">
               <a
                 href={mentor.linkedInUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition-colors"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold transition-colors"
               >
                 <Linkedin className="w-4 h-4 text-blue-600" />
-                <span>LinkedIn Profile</span>
+                <span>LinkedIn</span>
                 <ExternalLink className="w-3 h-3 text-slate-400" />
               </a>
               <a
                 href={mentor.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition-colors"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold transition-colors"
               >
-                <Github className="w-4 h-4 text-slate-900" />
-                <span>GitHub Repos</span>
+                <Github className="w-4 h-4 text-slate-900 dark:text-white" />
+                <span>GitHub</span>
                 <ExternalLink className="w-3 h-3 text-slate-400" />
+              </a>
+              <a
+                href="mailto:kate@mentoringandroid.dev"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-black text-white text-xs font-medium hover:bg-slate-800 transition-colors shadow-sm"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="font-mono text-[11px]">kate@mentoringandroid.dev</span>
               </a>
             </div>
           </div>
