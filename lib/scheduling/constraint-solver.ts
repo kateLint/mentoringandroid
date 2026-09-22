@@ -79,7 +79,7 @@ export class SchedulingConstraintSolver {
       return {
         satisfiable: false,
         status: "UNSAT",
-        unsatCore: `Capacity violation: maximum daily limit of ${this.maxDailySessions} sessions reached for date ${candidate.date}.`,
+        unsatCore: `Daily capacity violation: maximum limit of ${this.maxDailySessions} sessions reached for date ${candidate.date}.`,
       };
     }
 

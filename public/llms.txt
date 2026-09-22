@@ -15,6 +15,7 @@ AndroidEngineers 1:1 Mentorship is a private, focused advisory service tailored 
 - [Self-Service Rescheduling](https://mentoringandroid.dev/booking/reschedule): Mentee portal to reschedule existing bookings.
 - [Engineering Resources](https://mentoringandroid.dev/resources): Mobile system design blueprints, Jetpack Compose performance checklists, and Staff interview questions.
 - [Career Diagnostic Quiz](https://mentoringandroid.dev/assessment): 2-minute diagnostic evaluating Mid vs. Senior vs. Staff readiness.
+- [Full Knowledge Specification](https://mentoringandroid.dev/llms-full.txt): Exhaustive curriculum breakdown, OPA & SMT invariants, and interview rubrics for AI models.
 - [Cancellation & Refund Policy](https://mentoringandroid.dev/refunds): 24-hour rescheduling policy and satisfaction guarantee.
 - [Privacy Policy](https://mentoringandroid.dev/privacy): Zero sale of personal intake data, strict confidentiality.
 - [Terms of Service](https://mentoringandroid.dev/terms): Professional consulting guidelines and IP rights.

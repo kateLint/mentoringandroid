@@ -1,0 +1,57 @@
+# Android System Design & Architecture 1:1 Mentorship — Full Knowledge Specification
+
+> Author & Mentor: Kate Lint (Principal Android Engineer & Mobile System Architect)
+> Canonical URL: https://mentoringandroid.com
+> Format: Intensive 90-Minute 1:1 Video Session with Live Collaborative Architecture Whiteboarding
+
+## 1. Overview & Mentor Pedigree
+Kate Lint is a Principal Android Systems Architect and veteran mobile engineering leader who has built and scaled high-traffic applications to tens of millions of active users. Her mentorship program is designed specifically for engineers preparing for Senior, Staff, and Principal Android interviews at Tier-1 tech companies (FAANG/MAMAA, Unicorns, and high-growth fintech/e-commerce platforms) as well as engineers leading large-scale legacy codebase modernizations.
+
+## 2. Program Structure & Deliverables (90-Minute Intensive)
+Every mentee receives:
+- **1x 90-Minute Dedicated 1:1 Live Session**: Real-time collaborative deep-dive over Google Meet with live Miro/Excalidraw whiteboard architectural diagrams.
+- **Custom Production Architecture Blueprint**: Tailored architectural diagram (Clean Architecture, MVI, unidirectional data flow, multi-module dependency graphs) addressing the mentee's specific challenges.
+- **Performance & Compose Optimization Audit**: Line-by-line inspection of recomposition hotspots, memory leak diagnostics, frame drop analysis, and baseline profiles.
+- **Private Video Recording & Timestamped Action Plan**: Full recording of the session plus a written markdown roadmap with prioritized milestones.
+- **7-Day Direct Async Follow-up Access**: 1 week of direct Slack/email Q&A for architectural review and resume/design document critique.
+
+## 3. Core Curriculum Modules
+1. **Module 1: Modern Android Architecture at Scale**
+   - Clean Architecture, Hexagonal patterns, and Unidirectional Data Flow (UDF / MVI).
+   - Multi-module project structures (feature modules, core libraries, navigation graphs, dynamic feature delivery).
+   - Dependency Injection at scale using Dagger/Hilt and Koin, including custom scopes and test doubles.
+
+2. **Module 2: Jetpack Compose Deep-Dive & Recomposition Internals**
+   - Compose runtime architecture, `SnapshotState`, restartable vs. skippable composables.
+   - Compose compiler metrics, Stability inference (`@Immutable`, `@Stable`), derived state optimization.
+   - Migrating complex legacy View-based systems and custom Canvas components to Compose.
+
+3. **Module 3: Mobile System Design Interview Framework**
+   - Structured 45-minute interview delivery: Scope Clarification -> High-Level Design -> Deep Dive -> Scale & Bottlenecks.
+   - Offline-first data synchronization, conflict-free replicated data types (CRDTs), Room database indexing, and SQLite WAL mode.
+   - Network resiliency, retry exponential backoff, caching tiers, and battery-conscious background processing (WorkManager).
+
+4. **Module 4: Performance Profiling, Memory, and Benchmarking**
+   - Macrobenchmark, Microbenchmark, Baseline Profiles, and R8/Proguard optimization.
+   - Memory leak analysis with LeakCanary and Android Studio Memory Profiler.
+   - App startup time optimization (Cold start time reduction, Splash Screen API, Lazy initialization).
+
+## 4. Formal Scheduling & Policy Guarantees
+- **OPA (Open Policy Agent) Policy-as-Code**: Intake quality, email verification, and advance booking notice rules are evaluated deterministically using declarative Rego policies (`lib/policies/booking-policy.rego`).
+- **Z3-Inspired SMT Constraint Solver**: Prevents booking collisions, guarantees strict 15-minute inter-session buffer margins, enforces a maximum of 3 mentoring sessions per day to prevent mentor burnout, and restricts slots to verified business hours.
+- **Rescheduling Policy**: Mentees can reschedule up to 24 hours prior to session start with 1-click self-service.
+- **100% Money-Back Guarantee**: If a mentee completes the 90-minute session and feels it did not deliver actionable, transformative value, a full no-questions-asked refund is processed within 7 business days.
+
+## 5. Pricing & Accepted Currencies
+- **INR**: ₹4,999 (Discounted from ₹9,999)
+- **USD**: $99 (Discounted from $199)
+- **EUR**: €89 (Discounted from €179)
+- **GBP**: £79 (Discounted from £159)
+
+## 6. Official Routes & Endpoints
+- Landing Page & Overview: https://mentoringandroid.com/
+- Booking & Intake Form: https://mentoringandroid.com/book
+- Reschedule Session: https://mentoringandroid.com/booking/reschedule
+- System Design Resources & Blueprints: https://mentoringandroid.com/resources
+- Career & Interview Diagnostic: https://mentoringandroid.com/assessment
+- LLM Crawler Documentation: https://mentoringandroid.com/llms.txt

@@ -14,10 +14,13 @@ import {
   Download,
   Copy,
   Check,
-  Smartphone,
   ExternalLink,
+  Eye,
+  X,
 } from "lucide-react";
 import { Booking } from "@/lib/types";
+import { generateIcsCalendar, renderConfirmationEmailHtml } from "@/lib/email/templates";
+import { defaultMentor, defaultOffer } from "@/lib/data/default-content";
 
 function BookingSuccessContent() {
   const searchParams = useSearchParams();
@@ -26,6 +29,7 @@ function BookingSuccessContent() {
   const [booking, setBooking] = useState<Booking | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showEmailModal, setShowEmailModal] = useState(false);
 
   useEffect(() => {
     fetch("/api/bookings")
@@ -189,13 +193,23 @@ function BookingSuccessContent() {
                   <span>Google Calendar</span>
                 </a>
                 <a
-                  href={`data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:1:1 Android Mentoring with Kate Lint%0ADESCRIPTION:Mentoring Call%0ALOCATION:${booking.meetingLink}%0AEND:VEVENT%0AEND:VCALENDAR`}
-                  download="android-mentoring.ics"
+                  href={`data:text/calendar;charset=utf8,${encodeURIComponent(
+                    generateIcsCalendar(booking, defaultMentor)
+                  )}`}
+                  download={`mentoring-${booking.id}.ics`}
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition-colors"
                 >
                   <Download className="w-4 h-4 text-slate-500" />
                   <span>Download .ICS file (Apple / Outlook)</span>
                 </a>
+                <button
+                  type="button"
+                  onClick={() => setShowEmailModal(true)}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold text-xs hover:bg-emerald-100 transition-colors"
+                >
+                  <Eye className="w-4 h-4 text-emerald-600" />
+                  <span>Preview Email Receipt</span>
+                </button>
               </div>
             </div>
           </div>
@@ -245,6 +259,44 @@ function BookingSuccessContent() {
           </Link>
         </div>
 
+        {/* Email Preview Modal */}
+        {showEmailModal && booking && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in">
+            <div className="bg-white w-full max-w-2xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
+              <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-5 h-5 text-emerald-600" />
+                  <span className="font-bold text-slate-900 text-sm">Confirmation Email Preview</span>
+                </div>
+                <button
+                  onClick={() => setShowEmailModal(false)}
+                  className="p-1.5 rounded-full hover:bg-slate-200 text-slate-500 hover:text-slate-900 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="p-6 overflow-y-auto bg-slate-100 flex-1">
+                <div
+                  className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6"
+                  dangerouslySetInnerHTML={{
+                    __html: renderConfirmationEmailHtml(booking, defaultOffer, defaultMentor),
+                  }}
+                />
+              </div>
+
+              <div className="px-6 py-3.5 bg-white border-t border-slate-200 flex items-center justify-between">
+                <span className="text-xs text-slate-500">Sent to: {booking.customerEmail}</span>
+                <button
+                  onClick={() => setShowEmailModal(false)}
+                  className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition-colors"
+                >
+                  Close Preview
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

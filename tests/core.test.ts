@@ -127,6 +127,36 @@ test("Z3-inspired SMT solver detects overlap, buffer, and capacity conflicts", (
   };
   const validRes = solver.checkSatisfiability([existingSession], validCandidate);
   assert.strictEqual(validRes.status, "SAT");
+
+  // 4. Capacity limit test: Max 2 daily sessions. If 2 exist, a 3rd should be UNSAT
+  const secondSession = {
+    id: "MNT-SESSION-2",
+    date: "2026-09-25",
+    startMinutes: 840,
+    durationMinutes: 90,
+  };
+  const thirdCandidate = {
+    id: "MNT-CANDIDATE-4",
+    date: "2026-09-25",
+    startMinutes: 1000,
+    durationMinutes: 90,
+  };
+  const capRes = solver.checkSatisfiability([existingSession, secondSession], thirdCandidate);
+  assert.strictEqual(capRes.status, "UNSAT");
+  assert.ok(capRes.unsatCore?.includes("Daily capacity"));
+});
+
+test("evaluateReschedulePolicy enforces 24-hour advance notice window", () => {
+  // Slot in 3 days -> allowed
+  const futureDate = new Date(Date.now() + 72 * 3600 * 1000).toISOString().split("T")[0];
+  const allowRes = evaluateReschedulePolicy(futureDate);
+  assert.strictEqual(allowRes.allow, true);
+
+  // Slot in 2 hours -> blocked
+  const imminentDate = new Date(Date.now() + 2 * 3600 * 1000).toISOString().split("T")[0];
+  const blockRes = evaluateReschedulePolicy(imminentDate, new Date(Date.now() + 1 * 3600 * 1000));
+  assert.strictEqual(blockRes.allow, false);
+  assert.ok(blockRes.reason?.includes("24 hours notice"));
 });
 
 test("generateIcsCalendar generates compliant RFC 5545 VEVENT", () => {
