@@ -27,106 +27,106 @@ export default function Header() {
 
       {/* Main Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
+          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-android-green to-emerald-600 flex items-center justify-center text-slate-950 font-bold shadow-md group-hover:scale-105 transition-transform">
               <Smartphone className="w-5 h-5 text-slate-950" />
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-slate-900 text-base sm:text-lg tracking-tight leading-tight">
-                AndroidEngineers<span className="text-emerald-600">.1on1</span>
+              <span className="font-extrabold text-slate-900 dark:text-white text-base sm:text-lg tracking-tight leading-tight">
+                AndroidEngineers<span className="text-emerald-600 dark:text-emerald-400">.1on1</span>
               </span>
-              <span className="text-[11px] text-slate-500 font-medium tracking-wide uppercase">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase">
                 Career & Architecture
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+          {/* Desktop Navigation Links (>= 1280px) */}
+          <nav className="hidden xl:flex items-center gap-5 text-sm font-semibold text-slate-600 dark:text-slate-300">
             <Link
               href="/#how-it-works"
-              className="hover:text-emerald-600 transition-colors py-2"
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors py-2 whitespace-nowrap"
             >
               How it works
             </Link>
             <Link
               href="/#curriculum"
-              className="hover:text-emerald-600 transition-colors py-2"
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors py-2 whitespace-nowrap"
             >
               Session plan
             </Link>
             <Link
               href="/#mentor"
-              className="hover:text-emerald-600 transition-colors py-2"
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors py-2 whitespace-nowrap"
             >
               Your mentor
             </Link>
             <Link
               href="/resources"
-              className="hover:text-emerald-600 transition-colors py-2"
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors py-2 whitespace-nowrap"
             >
               Guides & Sheets
             </Link>
             <Link
               href="/simulator"
-              className="hover:text-emerald-600 transition-colors py-2 text-indigo-600 dark:text-indigo-400 font-bold flex items-center gap-1"
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors py-2 text-indigo-600 dark:text-indigo-400 font-bold flex items-center gap-1 whitespace-nowrap"
             >
               <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
-              <span>Architecture Simulator</span>
+              <span>Simulator</span>
             </Link>
             <Link
               href="/assessment"
-              className="hover:text-emerald-600 transition-colors py-2 text-emerald-700 dark:text-emerald-400 font-bold"
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors py-2 text-emerald-700 dark:text-emerald-400 font-bold whitespace-nowrap"
             >
               Diagnostic Quiz
             </Link>
             <Link
               href="/#faq"
-              className="hover:text-emerald-600 transition-colors py-2"
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors py-2 whitespace-nowrap"
             >
               FAQ
             </Link>
           </nav>
 
-          {/* Desktop Right Action */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Desktop Right Action (>= 1280px) */}
+          <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
             <ThemeToggle />
             <Link
               href="/book"
-              className="inline-flex items-center justify-center px-5 py-2.5 min-h-[48px] rounded-xl bg-slate-900 dark:bg-emerald-600 text-white font-semibold text-sm shadow-md hover:bg-emerald-600 hover:shadow-glow transition-all duration-200 group"
+              className="inline-flex items-center justify-center px-5 py-2.5 min-h-[48px] rounded-xl bg-slate-900 dark:bg-emerald-600 text-white font-semibold text-sm shadow-md hover:bg-emerald-600 hover:shadow-glow transition-all duration-200 group whitespace-nowrap"
             >
               <span>Book a session</span>
               <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
           </div>
 
-          {/* Mobile Menu Button & Theme Toggle */}
-          <div className="flex md:hidden items-center gap-1.5">
+          {/* Mobile & Tablet Controls (< 1280px) */}
+          <div className="flex xl:hidden items-center gap-2 flex-shrink-0">
             <ThemeToggle />
             <Link
               href="/book"
-              className="px-3.5 py-2.5 min-h-[48px] rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-sm flex items-center justify-center"
+              className="px-4 py-2.5 min-h-[48px] rounded-xl bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow-sm flex items-center justify-center whitespace-nowrap"
             >
               Book
             </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 min-w-[48px] min-h-[48px] flex items-center justify-center"
+              className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 min-w-[48px] min-h-[48px] flex items-center justify-center shadow-2xs transition-colors"
               aria-expanded={mobileMenuOpen}
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-6 h-6 text-slate-900 dark:text-white" /> : <Menu className="w-6 h-6 text-slate-900 dark:text-white" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Slide-down Drawer Menu */}
+      {/* Slide-down Drawer Menu (< 1280px) */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white/98 dark:bg-slate-900/98 border-b border-slate-200 dark:border-slate-800 px-4 pt-3 pb-6 space-y-3 shadow-xl animate-in slide-in-from-top duration-200">
+        <div className="xl:hidden bg-white/98 dark:bg-slate-900/98 border-b border-slate-200 dark:border-slate-800 px-4 pt-4 pb-6 space-y-3 shadow-2xl animate-in slide-in-from-top duration-150">
           <nav className="flex flex-col space-y-1">
             <Link
               href="/simulator"
