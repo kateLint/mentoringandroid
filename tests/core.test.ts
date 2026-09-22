@@ -6,6 +6,9 @@ import { getPriceForCurrency } from "../lib/currency";
 import { evaluateBookingPolicy, evaluateReschedulePolicy } from "../lib/policies/evaluator";
 import { SchedulingConstraintSolver } from "../lib/scheduling/constraint-solver";
 import { generateIcsCalendar } from "../lib/email/templates";
+import { evaluateArchitecture } from "../lib/simulator/engine";
+import { verifyStripeWebhookSignature, verifyRazorpayPaymentSignature } from "../lib/payment/providers";
+import crypto from "node:crypto";
 
 test("generateDefaultSlots produces valid upcoming dates without Sundays", () => {
   const slots = generateDefaultSlots();
@@ -186,3 +189,68 @@ test("generateIcsCalendar generates compliant RFC 5545 VEVENT", () => {
   assert.ok(ics.includes("LOCATION:https://meet.google.com/mnt-test-ref"));
   assert.ok(ics.includes("END:VCALENDAR"));
 });
+
+test("evaluateArchitecture correctly detects Compose and Coroutine anti-patterns", () => {
+  // Test 1: Un-remembered mutableStateOf
+  const composeAntiPattern = `
+    @Composable
+    fun BrokenCounter() {
+      var count = mutableStateOf(0)
+    }
+  `;
+  const report1 = evaluateArchitecture({ track: "compose", codeOrDescription: composeAntiPattern });
+  assert.ok(report1.score < 80, "Score should be penalized for unremembered state");
+  assert.ok(report1.findings.some((f) => f.id === "CMP-001"));
+
+  // Test 2: GlobalScope & Blocking I/O
+  const coroutineLeak = `
+    class Repo {
+      fun download() {
+        GlobalScope.launch {
+          val stream = FileInputStream("file.txt")
+        }
+      }
+    }
+  `;
+  const report2 = evaluateArchitecture({ track: "coroutines", codeOrDescription: coroutineLeak });
+  assert.ok(report2.findings.some((f) => f.id === "COR-001"));
+  assert.ok(report2.findings.some((f) => f.id === "COR-002"));
+});
+
+test("verifyStripeWebhookSignature validates authentic HMAC-SHA256 signatures", () => {
+  const secret = "whsec_test_secret_12345";
+  const payload = JSON.stringify({ id: "evt_123", type: "checkout.session.completed" });
+  const timestamp = Math.floor(Date.now() / 1000);
+
+  const signedPayload = `${timestamp}.${payload}`;
+  const validHash = crypto.createHmac("sha256", secret).update(signedPayload, "utf8").digest("hex");
+  const signatureHeader = `t=${timestamp},v1=${validHash}`;
+
+  // Valid signature
+  const validResult = verifyStripeWebhookSignature(payload, signatureHeader, secret);
+  assert.strictEqual(validResult.valid, true);
+
+  // Invalid signature
+  const invalidResult = verifyStripeWebhookSignature(payload, `t=${timestamp},v1=wrong_hash`, secret);
+  assert.strictEqual(invalidResult.valid, false);
+});
+
+test("verifyRazorpayPaymentSignature validates authentic order|payment signatures", () => {
+  const secret = "rzp_secret_998877";
+  const orderId = "order_N123456";
+  const paymentId = "pay_P987654";
+
+  const expectedHash = crypto
+    .createHmac("sha256", secret)
+    .update(`${orderId}|${paymentId}`, "utf8")
+    .digest("hex");
+
+  // Valid
+  const validResult = verifyRazorpayPaymentSignature(orderId, paymentId, expectedHash, secret);
+  assert.strictEqual(validResult.valid, true);
+
+  // Invalid
+  const invalidResult = verifyRazorpayPaymentSignature(orderId, paymentId, "forged_signature", secret);
+  assert.strictEqual(invalidResult.valid, false);
+});
+

@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/booking/reschedule",
     "/resources",
     "/assessment",
+    "/simulator",
     "/privacy",
     "/terms",
     "/refunds",

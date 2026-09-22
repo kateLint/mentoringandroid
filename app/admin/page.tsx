@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   Terminal,
   Cpu,
+  Send,
 } from "lucide-react";
 import { Booking, Offer, TimeSlot } from "@/lib/types";
 import { SchedulingConstraintSolver } from "@/lib/scheduling/constraint-solver";
@@ -37,6 +38,32 @@ export default function AdminPage() {
   const [savingOffer, setSavingOffer] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState("");
   const [expandedBookingId, setExpandedBookingId] = useState<string | null>(null);
+  const [dispatchingId, setDispatchingId] = useState<string | null>(null);
+  const [dispatchNotice, setDispatchNotice] = useState<string | null>(null);
+
+  const handleDispatchEmail = async (bookingId: string) => {
+    setDispatchingId(bookingId);
+    setDispatchNotice(null);
+    try {
+      const res = await fetch("/api/admin/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookingId }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setDispatchNotice(`Dispatched invite to ${data.recipient}!`);
+        setTimeout(() => setDispatchNotice(null), 4000);
+      } else {
+        alert(data.error || "Failed to dispatch email");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error triggering dispatch");
+    } finally {
+      setDispatchingId(null);
+    }
+  };
 
   // SMT Simulator state
   const [simDate, setSimDate] = useState<string>(
@@ -386,6 +413,13 @@ export default function AdminPage() {
                 </div>
               </div>
 
+              {dispatchNotice && (
+                <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-bold flex items-center gap-2 animate-in fade-in">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                  <span>{dispatchNotice}</span>
+                </div>
+              )}
+
               {filteredBookings.length === 0 ? (
                 <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 text-slate-500">
                   <Users className="w-12 h-12 mx-auto text-slate-300 mb-3" />
@@ -433,7 +467,18 @@ export default function AdminPage() {
                         </div>
 
                         {/* Status selector & Actions */}
-                        <div className="flex items-center gap-3 self-end sm:self-auto">
+                        <div className="flex items-center gap-2 sm:gap-3 self-end sm:self-auto">
+                          <button
+                            type="button"
+                            onClick={() => handleDispatchEmail(b.id)}
+                            disabled={dispatchingId === b.id}
+                            className="px-2.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold flex items-center gap-1.5 transition-colors"
+                            title="Dispatch calendar invite and confirmation email"
+                          >
+                            <Send className="w-3.5 h-3.5" />
+                            <span>{dispatchingId === b.id ? "Sending..." : "Send Invite"}</span>
+                          </button>
+
                           <select
                             value={b.status}
                             onChange={(e) =>

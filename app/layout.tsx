@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mentoringandroid.dev"),
@@ -39,9 +40,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full scroll-smooth">
-      <body className="min-h-full flex flex-col text-slate-900 bg-slate-50 antialiased selection:bg-brand-500 selection:text-white">
-        {children}
+      <body className="min-h-full flex flex-col text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-slate-950 antialiased selection:bg-brand-500 selection:text-white transition-colors duration-200">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
 }
+

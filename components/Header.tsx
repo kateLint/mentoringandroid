@@ -3,12 +3,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Sparkles, Smartphone } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all">
+    <header className="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 transition-colors">
       {/* Top Announcement Banner */}
       <div className="bg-gradient-to-r from-slate-900 via-android-dark to-slate-900 text-white text-xs sm:text-sm py-2 px-4 text-center font-medium flex items-center justify-center gap-2">
         <span className="flex h-2 w-2 relative">
@@ -69,8 +70,15 @@ export default function Header() {
               Guides & Sheets
             </Link>
             <Link
+              href="/simulator"
+              className="hover:text-emerald-600 transition-colors py-2 text-indigo-600 dark:text-indigo-400 font-bold flex items-center gap-1"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+              <span>Architecture Simulator</span>
+            </Link>
+            <Link
               href="/assessment"
-              className="hover:text-emerald-600 transition-colors py-2 text-emerald-700 font-bold"
+              className="hover:text-emerald-600 transition-colors py-2 text-emerald-700 dark:text-emerald-400 font-bold"
             >
               Diagnostic Quiz
             </Link>
@@ -83,28 +91,30 @@ export default function Header() {
           </nav>
 
           {/* Desktop Right Action */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             <Link
               href="/book"
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-sm shadow-md hover:bg-emerald-600 hover:shadow-glow transition-all duration-200 group"
+              className="inline-flex items-center justify-center px-5 py-2.5 min-h-[48px] rounded-xl bg-slate-900 dark:bg-emerald-600 text-white font-semibold text-sm shadow-md hover:bg-emerald-600 hover:shadow-glow transition-all duration-200 group"
             >
               <span>Book a session</span>
               <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center gap-2">
+          {/* Mobile Menu Button & Theme Toggle */}
+          <div className="flex md:hidden items-center gap-1.5">
+            <ThemeToggle />
             <Link
               href="/book"
-              className="px-3.5 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold shadow-sm"
+              className="px-3.5 py-2.5 min-h-[48px] rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-sm flex items-center justify-center"
             >
               Book
             </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-lg text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 min-w-[48px] min-h-[48px] flex items-center justify-center"
+              className="p-2.5 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 min-w-[48px] min-h-[48px] flex items-center justify-center"
               aria-expanded={mobileMenuOpen}
               aria-label="Toggle navigation menu"
             >
@@ -116,12 +126,23 @@ export default function Header() {
 
       {/* Mobile Slide-down Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white/98 border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 shadow-xl animate-in slide-in-from-top duration-200">
+        <div className="md:hidden bg-white/98 dark:bg-slate-900/98 border-b border-slate-200 dark:border-slate-800 px-4 pt-3 pb-6 space-y-3 shadow-xl animate-in slide-in-from-top duration-200">
           <nav className="flex flex-col space-y-1">
+            <Link
+              href="/simulator"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-4 py-3 rounded-lg text-indigo-700 dark:text-indigo-400 font-bold bg-indigo-50/60 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-950/70 flex items-center justify-between text-base"
+            >
+              <span className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-indigo-500" />
+                Architecture Simulator
+              </span>
+              <ArrowRight className="w-4 h-4 text-indigo-400" />
+            </Link>
             <Link
               href="/#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className="px-4 py-3 rounded-lg text-slate-800 font-medium hover:bg-slate-50 flex items-center justify-between text-base"
+              className="px-4 py-3 rounded-lg text-slate-800 dark:text-slate-200 font-medium hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-between text-base"
             >
               How it works
               <ArrowRight className="w-4 h-4 text-slate-400" />
